@@ -1,0 +1,5 @@
+Make it compatible with https://lambodiecast.com
+ - Make is go to URL/list.php
+ - Get eatch posts title image and price 
+    - place each item in a folder
+    - Sort items form Price high to low
