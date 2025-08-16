@@ -22,9 +22,11 @@ def make_folder():
 def get_posts(soup):
     posts = []
 
-    containers = soup.find_all("table", class_="intro")
+    containers = soup.find_all("div", class_="kolom midden")
     for box in containers:
-        title_tag = box.find("h2", class_="title")
+        #print(box.prettify())  # show what you actually found (debug)
+
+        title_tag = box.find("h2", class_="titel")
         scale_tag = box.find("h2", class_="scale")
         img_tag = box.find("img")
 
