@@ -1,0 +1,16 @@
+Using PRAW
+  -(DONE) How to register an app on Reddit and get the cliend_ID, client_secret and user_agent
+  - How to filder postsé (hot, top, new) and check the metadata
+
+Image downloading using Requests
+  - How to extract direct image link from posts
+  - How to handle non-image files or missing files
+  - How to avoid re-downloading the same image
+
+NSFW/SFW classification
+  - using Reddits own _over18 flag
+
+File org images into set Folders
+ - using OS 
+ - How to check if a folder exist if not create it
+ - How to save images with unique names to bypass overwriting
