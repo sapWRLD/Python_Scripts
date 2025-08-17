@@ -21,43 +21,75 @@ def make_folder():
 
 def get_posts(soup):
     posts = []
+    h2_tags = soup.find_all("h2")  # collects both titles and scales
 
-    containers = soup.find_all("div", class_="kolom midden")
-    for box in containers:
-        #print(box.prettify())  # show what you actually found (debug)
+    for idx in range(0, len(h2_tags), 2):
+        try:
+            title = h2_tags[idx].get_text(strip=True)
+            scale = h2_tags[idx+1].get_text(strip=True)
+            
+            # Find the next text node containing "Image:"
+            next_node = h2_tags[idx+1].find_next_sibling(text=True)
+            img_url = None
+            if next_node and next_node.strip().startswith("Image:"):
+                # Extract URL portion from the string
+                img_part = next_node.strip()[len("Image:"):].strip()
+                img_url = img_part  # this could also be a filename or relative URL
 
-        title_tag = box.find("h2", class_="titel")
-        scale_tag = box.find("h2", class_="scale")
-        img_tag = box.find("img")
+            posts.append({
+                "title": title,
+                "scale": scale,
+                "image": img_url
+            })
+        except IndexError:
+            break
 
-        title = title_tag.get_text(strip=True) if title_tag else None
-        scale = scale_tag.get_text(strip=True) if scale_tag else None
-        img_url = img_tag["src"] if img_tag else None
-
-        posts.append({
-            "title": title,
-            "scale": scale,
-            "image": img_url
-        })
     return posts
+
 
 
 def Check_For_Images():
     return
 
-def Download_Post():
-    return
-
+"""def Download_Post(url, folder, title):
+    if not url:
+        return
+    response = requests.get(url, headers=HEADERS)
+    if response.status_code == 200:
+        ext = url.split('.')[-1]
+        filename = f"{title}.{ext}".replace('/', '_')
+        path = os.path.join(folder, filename)
+        with open(path, 'wb') as f:
+            f.write(response.content)
+        print(f"Downloaded {filename}")
+    else:
+        print(f"Failed to download {url}")"""
 
 def main():
-    url = "https://www.lambodiecast.com/list.php?m=Lamborghini"
-    soup = fetch_site(url)
-    posts = get_posts(soup)
-    make_folder()
-    
-    for post in posts:
-        print(post["title"], post["image"])
+    base_url = "https://www.lambodiecast.com/list.php?m=Lamborghini"
+    folder = make_folder()
+    page = 1
 
-    return
+    while page < 110:
+        if page == 1:
+            url = base_url
+        else:
+            url = f"{base_url}&p={page}"
+
+        print(f"Fetching page {page}: {url}")
+        soup = fetch_site(url)
+        posts = get_posts(soup)
+
+        if not posts:
+            print("No more posts, stopping.")
+            break
+
+        for post in posts:
+            print(post["title"], post["scale"], post["image"])
+            #Download_Post(post["image"], folder, post["title"])
+
+        page += 1
+
+
 if __name__ == "__main__":
     main()
