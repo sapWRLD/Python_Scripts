@@ -19,30 +19,28 @@ def make_folder():
         return
     return Posts_path
 
+SITE_ROOT = "https://www.lambodiecast.com/"
+
 def get_posts(soup):
     posts = []
-    h2_tags = soup.find_all("h2")  # collects both titles and scales
+    h2_tags = soup.find_all("h2", class_="titel")  # only grab titles
 
-    for idx in range(0, len(h2_tags), 2):
-        try:
-            title = h2_tags[idx].get_text(strip=True)
-            scale = h2_tags[idx+1].get_text(strip=True)
-            
-            # Find the next text node containing "Image:"
-            next_node = h2_tags[idx+1].find_next_sibling(text=True)
-            img_url = None
-            if next_node and next_node.strip().startswith("Image:"):
-                # Extract URL portion from the string
-                img_part = next_node.strip()[len("Image:"):].strip()
-                img_url = img_part  # this could also be a filename or relative URL
+    for h2 in h2_tags:
+        title = h2.get_text(strip=True)
 
-            posts.append({
-                "title": title,
-                "scale": scale,
-                "image": img_url
-            })
-        except IndexError:
-            break
+        # Find the next <h2 class="scale">
+        scale_tag = h2.find_next_sibling("h2", class_="scale")
+        scale = scale_tag.get_text(strip=True) if scale_tag else None
+
+        # Find the next <img class="hoofding">
+        img_tag = h2.find_next("img", class_="hoofding")
+        img_url = SITE_ROOT + img_tag["src"].lstrip("/") if img_tag else None
+
+        posts.append({
+            "title": title,
+            "scale": scale,
+            "image": img_url
+        })
 
     return posts
 
@@ -69,12 +67,13 @@ def main():
     base_url = "https://www.lambodiecast.com/list.php?m=Lamborghini"
     folder = make_folder()
     page = 1
+    total_posts = 0
 
-    while page < 110:
+    while page < 110: #site has 110 page's
         if page == 1:
             url = base_url
         else:
-            url = f"{base_url}&p={page}"
+            url = f"{base_url}&p={page}"   #Sites uses P= instead of page=
 
         print(f"Fetching page {page}: {url}")
         soup = fetch_site(url)
@@ -86,9 +85,12 @@ def main():
 
         for post in posts:
             print(post["title"], post["scale"], post["image"])
+            total_posts += 1
             #Download_Post(post["image"], folder, post["title"])
 
         page += 1
+
+    print(f"\n✅ Scraped a total of {total_posts} posts.")
 
 
 if __name__ == "__main__":
