@@ -1,23 +1,26 @@
 from pynput import keyboard
-current_Tasks = [[],[],[]]
+from time import gmtime, strftime
+current_Tasks = [[],[],[]] # [HIGH, MEDIUM, LOW]
 
 def add_Task():
     global current_Tasks
+    s = strftime("%a, %d %b %Y %H:%M:%S", 
+             gmtime(1627987508.6496193))
     print("Add task called!")
     while True:
         task = input("Please enter the task you want to add (type (HIGH, MEDIUM, LOW) to set the priorety of the task). Press q to quit :")
         if task.lower() == "q":
             break
         elif "HIGH" in task:
-            current_Tasks[0].append(task)
+            current_Tasks[0].append(f"{task} | {s}")
             print("Added to High prior")
 
         elif "MEDIUM" in task:
-            current_Tasks[1].append(task)
+            current_Tasks[1].append(f"{task} | {s}")
             print("Added to Medium prior")
 
         elif "LOW" in task:
-            current_Tasks[2].append(task)
+            current_Tasks[2].append(f"{task} | {s}")
             print("Added to Low prior")
         else:
             print("Invalid please add (HIGH, MEDIUM OR LOW).")
@@ -25,7 +28,47 @@ def add_Task():
         
 
 def remove_Task():
+    global current_Tasks
     print("Remove task called!")
+    while True:
+        priority = input("Pleas enter the priority of the finished task (HIGH, MEDIUM, LOW). q To cancel: ")
+        if priority.lower() == "q":
+            break
+        elif "HIGH" in priority:
+            for task in current_Tasks[0]:
+                    print(f"- {task}")
+            remove = input("Pleas input the task you want to remove: ")
+            for task in current_Tasks[0]:
+                if task.lower() == remove.lower():
+                    current_Tasks[0].remove(task)
+                    print(f"The task {remove} has been deleted")
+                else:
+                    print("No task found!")
+                    
+
+        elif "MEDIUM" in priority:
+            for task in current_Tasks[1]:
+                    print(f"- {task}")
+            remove = input("Pleas input the task you want to remove: ")
+            for task in current_Tasks[1]:
+                if task.lower() == remove.lower():
+                    current_Tasks[1].remove(task)
+                    print(f"The task {remove} has been deleted")
+                else:
+                    print("No task found!")
+
+        elif "LOW" in priority:
+            for task in current_Tasks[2]:
+                    print(f"- {task}")
+            remove = input("Pleas input the task you want to remove: ")
+            for task in current_Tasks[2]:
+                if task.lower() == remove.lower():
+                    current_Tasks[2].remove(task)
+                    print(f"The task {remove} has been deleted")
+                else:
+                    print("No task found!")
+        else:
+            print("Invalid please add (HIGH, MEDIUM OR LOW).")
 
 def Show_Task():
     global current_Tasks
