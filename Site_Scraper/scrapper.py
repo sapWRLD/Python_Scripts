@@ -69,7 +69,7 @@ def main():
     page = 1
     total_posts = 0
 
-    while page < 110: #site has 110 page's
+    while page <= 110: #site has 110 page's
         if page == 1:
             url = base_url
         else:

@@ -32,30 +32,55 @@ def make_Folder():
          folders_exists = True
     return
 
+
 def fetch_Images():
     global subreddits
     global script_dir
     image_Count = 0
+
     for subreddit in subreddits:
         print(f"Fetching from r/{subreddit.display_name}")
         for post in subreddit.new(limit=15):
-            if not post.is_video and not hasattr(post, "gallery_data"):
-                if post.url.endswith((".jpeg", "jpg", ".png", ".gif")) or (hasattr(post, "post_hint") and post.post_hint == "image"):
-                    print("image found!", post.title, post.url)
+            if not hasattr(post, "gallery_data"):
+                if post.is_video or post.url.endswith((".jpeg", ".jpg", ".png", ".gif", ".gifv", ".mp4")) \
+                    or (hasattr(post, "post_hint") and post.post_hint in ["image", "hosted:video"]):
+
                     try:
-                        if post.over_18:
-                            file_path = os.path.join(script_dir, 'nsfw_Images', f"{post.id}.jpeg")
-                            urllib.request.urlretrieve(post.url, file_path)
-                            image_Count =+ 1
+                        if post.is_video:
+                            video_data = None
+                            if post.media and "reddit_video" in post.media:
+                                video_data = post.media["reddit_video"]
+                            elif post.secure_media and "reddit_video" in post.secure_media:
+                                video_data = post.secure_media["reddit_video"]
+
+                            if video_data:
+                                duration = video_data.get("duration", 0)
+                                if duration > 30:
+                                    print(f"Skipping {post.id} (too long: {duration}s)")
+                                    continue
+
+                                url = video_data["fallback_url"]
+                                ext = ".mp4"
+                            else:
+                                print(f"Skipping {post.id}, could not find video data")
+                                continue
+
                         else:
-                            file_path = os.path.join(script_dir, 'sfw_Images', f"{post.id}.jpeg")
-                            urllib.request.urlretrieve(post.url, file_path)
-                            image_Count =+ 1
+                            # Normal images/gifs
+                            url = post.url
+                            ext = os.path.splitext(url)[1] if "." in url else ".jpg"
+
+                        folder = "nsfw_Images" if post.over_18 else "sfw_Images"
+                        file_path = os.path.join(script_dir, folder, f"{post.id}{ext}")
+                        urllib.request.urlretrieve(url, file_path)
+                        image_Count += 1
                         print(f"Downloaded {file_path}")
-                        
+
                     except Exception as e:
                         print(f"Failed to download {post.url}: {e}")
-    print(f"Puller image ({image_Count} Pulled).")
+
+    print(f"Pulled {image_Count} files.")
+
 
 
 def main():
