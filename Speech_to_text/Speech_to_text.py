@@ -11,7 +11,7 @@ mic = sr.Microphone()
 
 stop_listening = None
 def on_press(key):
-        global stop_listening  
+        global stop_listening 
         if key == keyboard.Key.space:
             if stop_listening is None:
                 print("spraakherkening gestart. Druk op Esc om te stoppen.")
@@ -26,7 +26,7 @@ def on_press(key):
                 print("Spraakherkenning gestopt. Programma sluit af.")
             else:
                 print("Spraakherkenning was niet actief.")
-            return False  # Stop listener
+        return False  # Stop listener
 # Callback-functie die automatisch wordt aangeroepen wanneer er spraak wordt gedetecteerd
 def callback(recognizer, audio):
     try:
