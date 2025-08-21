@@ -1,0 +1,73 @@
+ ********************************************************************************************************************************************************************************************
+ --Strings--
+  - Creating a string: String can be created by using either single(') or double (")
+    --s1 = 'GG'
+    --s2 = "GFG"
+      --print(s1)
+      --print(s2)
+        --OUTPUT--
+        GG
+        GFG
+
+ - Multi line strings can be created using ('''or""")
+   --s1 = """This is a python
+    cheatcheet"""
+
+ - Accesing charachter in Python strings
+  --- Python ---
+      012345
+      
+      --s1 = "Python"
+      print(s1[0]
+        --OUTPUT--
+            P
+
+ - Sting slicing
+  --s =GeeksForGeeks
+
+  print(s[1:4] 'eek'
+
+  print(s[:3] 'Gee'
+
+  print(s[3:] 'ksForGeeks
+
+ - Reverse a String
+
+  print(s[::-1] 'skeeGroFskeesG'
+
+ - String immutability
+  - String in pyton are ummutable. This means that they can not be changed after they have been created. if we need to manipulate string we can use methods like 
+    concatenation, slicing or formatting to create new strings based on the original
+  
+  --s = geeksForGeeks
+
+  s = "G" + s[1]
+  print(s) 'GeeksForGeeks'
+
+ - Deleting a sting 
+  --s = "GFG"
+
+  def s 'Deletes the sting in s making s empty'
+
+ - Updating a string 
+  --s = "hello geeks"
+
+   --s1 = "H" + s[1:] created a new string using the var s making s1 "Hello geeks"
+
+   --s2 = s.replace("geeks", "GeeksForGeeks") created a new sting using the var s replacing geeks making 'hello GeeksForGeeks'
+
+ - Common String methods
+  -len() 'Gives the lenght of the selected sting'
+  -upper()/lower() 'makes the selecter string all UPPERCASE or lowercase'
+  -strip() 'Removes white space around strings '
+  -replace() 'makes you able to replace someting in the string with another sting item'
+
+ - Formatting strings 
+  -Using f-strings
+    --name = "Alice"
+    --age = 22
+    print(f"Name: {name}, age {age}") 'prints Name: Alice, age 22'
+
+  -using .format()
+   --s = "My name is {} and i am {} years old.".format("Alice", 22)
+*********************************************************************************************************************************************************************************************
