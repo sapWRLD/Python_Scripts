@@ -70,4 +70,114 @@
 
   -using .format()
    --s = "My name is {} and i am {} years old.".format("Alice", 22)
+*********************************************************************************************************************************************************************************************--TIME--
+
+-- import time 'to make use of the module' --
+
+ - What is epoch
+  - the epoch is the pont where the time starts and is platform-dependent. on Windows and Unix systems, the epoch is 'January 1, 1970, 00:00:00 (UTC), and leap seconds are not counted
+  towards the time in seconds since the epoch. to check what the epoch is on a given platform we can use 
+
+   --time.gmtime(0) 'give the epoch of a given system'
+
+ - Getting current time since epoch
+  - time.time() 'returns the current time in seconds since epoch
+
+  - Delaying the execution of programms
+    - time.sleep(1) 'makes the programm wait the given secondes in this case 1 sec'
+
+ - Getting current date 
+  - using gmtime() and time() we can get the current date by doing
+   --gmtime(time())
+
+ - time.strftime() method
+  - time.strftime() conversts a tupple or struct_time representing a time as returned by 
+  gmtime() or localtime() to a string as specified by format agrument
+
+  -- from time import strftime, gmtime, time
+  s = strftime("%a, %d, %b, %Y, %H:%M:%S", gmtime(time())
+  print(s) 
+  --OUTPUT-- 
+
+  Thu, 21 aug 2025 16:31:50
 *********************************************************************************************************************************************************************************************
+--LISTS-- 
+
+ - Adding element into lists
+  - append() 'Adds elemement to the back of the list'
+  - extend() 'adds muliple elements to the back of the list'
+  - insert() 'Adds an element to a specific postition in the list
+    - Using namelist.insert(0,5) 'inserts element 5 to index 0'
+
+ - Removing elements from a list
+  - remove() 'removes the first accurance of an element in a list'
+  - pop() ' removes the element at a specific index or the last element if not index is specified
+  - del() 'deletes an element at a specified index'
+
+ - Nested lists in python
+  - matrix = [
+        [1,2,3],
+        [4,5,6],
+        [7,8,9]
+      ]
+      ' Acces elements at row 2, column 3
+      print(matric[1][2]
+      --OUTPUT--
+      6
+ - List comprehension in python
+  - 'List comprehension is a concise way to create lists using a single line of code. it usefull for applying an operation or filter to items in an iterable, such as list or range.
+
+    - 'create a lsit of squares from 1 to 
+      - squares = [x**2 for x in range(1,5)]
+        print(squares)
+        --OUTPUT--
+        [1,4,9,16,25$
+*********************************************************************************************************************************************************************************************--DICTIONARIES--
+ - Python dictionary is a data structure that stores the value in key:valau pairs. Values in a dictionary can be of any data type and can be duplicated, where ass keys can't be repeated
+   and must be immutable. 
+    - Example, the data is stored in key: value pairs in dictionaries, wich makes it easier to find.
+      --d= {1: 'Geeks", 2: 'For', 3: 'Geeks'}
+
+ - How to created dictionaries 
+  - 'they can be created by placing a sequence of elements within curly {} braces, seperated by a 'comma''
+
+  --d1 = {1: 'Geeks', 2: 'for', 3:'Geeks'}
+    print(d1)
+
+ - Accesing dictionary items
+  - 'We can acces a value from a dictionary by using the key within square brachets or get() method
+   --d = { "name" : "tom", 1: "Python", (1,2): [1,2,3] }
+    print(d["name"]) --OUTPUT--
+                        tom
+
+    print(d.get("name")) --OUTPUT--
+                            tom
+ - iterating though a dictionary
+  - 'We can iterate of keys using keys() method, values using values() method or both with a for loop
+   --d = { 1: "Geeks", 2: "For", "age": 22 }
+
+   for key in d: 'Iterate over keys 
+       print(key)
+       --OUTPUT---
+       1
+       2
+       age
+
+   for value in d.values(): 'Iterate over values
+       print(value)
+       --OUTPUT--
+       Geeks
+       For
+       22
+
+    for key, value in d.items():
+        print(f"{key}: {value}
+        --OUPUT--
+        1: Geeks
+        2: For
+        age: 22
+
+ - Nested dictionary
+  - Example of a nested dictionary 
+   --d = { 1: "Geeks", 2: "For", 3 : {'A' : 'Welcome', 'B' : 'To', 'C': 'Geeks'}}
+
