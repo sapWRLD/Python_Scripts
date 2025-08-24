@@ -180,4 +180,75 @@
  - Nested dictionary
   - Example of a nested dictionary 
    --d = { 1: "Geeks", 2: "For", 3 : {'A' : 'Welcome', 'B' : 'To', 'C': 'Geeks'}}
+*********************************************************************************************************************************************************************************************--Classes and Objects--
+ -Python is an object oriented programming language. almost everything is python is an object, with its properties and methods. a Class is like an object consturctor, or a "blueprint" for
+ creating objects 
 
+ - Creat e Class
+ --class Myclass:
+    x = 5 'Create a class named MyClass, with a property named x'
+
+ - Create an object
+ --p1 = MyClass()
+    print(p1.x) 'Create an object named p1, and print the value of x"
+
+ - The __init__() method 'The examples above are classes and objects in their simplest form, and are not realy useful in real life applications. To understand the meaning of classes we have to understand the built in __init__() method. All classes have a method called __init__(), which is always executed when the class is being initiated. Use the __init__() method to assign 
+ values to object properties, or other operations that are necessery to do when the object is being created.
+ -- Example
+  --Class Person:
+      def __init__(self, name, age):
+        self.name = name
+        self.age == age
+
+    p1 = Person("John", 36)
+    print(p1.name + p1.age)
+    --OUTPUT--
+    John36
+
+ - Th __str__() method 'The __str__() method controls what should be returnde when the class object is respressented as a string. if the __str__() method is not set, the string 
+ repressentation of hte object is returned'
+ --Example
+  --Class Person/
+    def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+    def __str__(self):
+    return f"{self.name}({self.age})"
+
+    p1 = Person("John", 36)
+    print(p1)
+    --OUTPUT--
+    John(36)
+
+ - Create Methods 'You can create your own methods inside objects. Methods in object are functions that belong to the object.
+ --Example
+  --Class Person:
+   def __init__(self, name, age):
+      self.name = name
+      self.age = age
+
+  def myfunc(self):
+    print("Hello my name is " + Self.name)
+
+  --p1 : Person("John, 36)
+  p1.myfunx()
+  --OUTPUT--
+  Hello my name is John
+
+ - The self paremeter 'The self parameter is a reference to the current instance of the class, and is used to acces veriables that belong to the class. It does not have to be name self, you can call it whatever you like, but it has to be the first parameter of any function in the class.
+  --Example
+  --Class Personn
+    def __init__(mysilyobject, name, age)
+    mysillyobject.name = name
+    mysillyobject.age = age
+
+    def myfunc(abc):
+      print("Hello my name is " + abc.name)
+
+    p1 = Person("John", 36)
+    p1.myfunc()
+
+ - Modify object properties
+ --p1.age = 40
+*********************************************************************************************************************************************************************************************
