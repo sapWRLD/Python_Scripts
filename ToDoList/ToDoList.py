@@ -1,10 +1,30 @@
+import json, os
 from time import gmtime, strftime, time
 import tags
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+TASK_FILE = os.path.join(SCRIPT_DIR, "Data.json")
 current_Tasks = [[],[],[]] # [HIGH, MEDIUM, LOW]
+
 priorities = {"HIGH": {"index": 0, "label": "High"},
                 "MEDIUM": {"index": 1, "label": "Medium"},
                 "LOW": {"index": 2, "label": "Low"}
             }
+
+def save_task():
+    with open(TASK_FILE, "w") as f:
+        json.dump(current_Tasks, f, indent=4)
+
+def load_tasks():
+    global current_Tasks
+    if os.path.exists(TASK_FILE):
+        with open(TASK_FILE, "r") as f:
+            try: 
+                current_Tasks = json.load(f)
+            except json.JSONDecodeError:
+                print("⚠️ Error: tasks.json is corrupted. Starting fresh.")
+                current_Tasks =[[],[],[]]
+
 def add_Task():
     global current_Tasks
     print("Add task called!")
@@ -33,9 +53,16 @@ def add_Task():
         try:
             choice = int(input("Enter the number of the tag you want to apply: "))
             tag_selected = tags.task_tags["Context/Category"][choice - 1]
-
+            
+            task_obj = {
+                "task": raw_task,
+                "tag": tag_selected,
+                "created": s,
+                "priority": priority,
+            }
             task_content = f"[{tag_selected}] {raw_task}"
-            current_Tasks[priorities[priority]["index"]].append(f"{task_content} | {s}")
+            current_Tasks[priorities[priority]["index"]].append(task_obj)
+            save_task()
             print(f"Added to {priorities[priority]['label']} priority")
         except (ValueError, IndexError):
             print("Invalid selection, please try again.")
@@ -60,14 +87,15 @@ def remove_Task():
         
         print(f"{label} priority tasks")
         for i, task in enumerate(current_Tasks[idx], start=1):
-            print(f"{i}- {task}")
+            print(f" {i}- [{task['tag']}] {task['task']} (added: {task['created']})")
         if not current_Tasks[idx]:
             print(f"No tasks in {label} priority!")
             continue
         try:
             choice = int(input("Enter the number of the task you want to remove: "))
             removed_task = current_Tasks[idx].pop(choice - 1)
-            print(f"The task '{removed_task}' has been deleted")
+            save_task()
+            print(f"🗑️ Deleted task: [{removed_task['tag']}] {removed_task['task']} (added: {removed_task['created']})")
         except (ValueError, IndexError):
             print("Invalid selection!")
 
@@ -81,8 +109,9 @@ def show_Task():
         if not current_Tasks[idx]:
             print(" - No tasks")
         else:
-            for task in current_Tasks[idx]:
-                print(f" - {task}")
+           for task in current_Tasks[idx]:
+                print(f" - [{task['tag']}] {task['task']} (added: {task['created']})")
+
 
      
 
@@ -95,7 +124,7 @@ def ui():
 1. Add task
 2. Remove task
 3. Show tasks
-4. Quit
+4. Save and Quit
 """)
         choice = input("Enter choice: ")
 
@@ -107,10 +136,12 @@ def ui():
             show_Task()
         elif choice == "4":
             print("Thanks for using my Todo app!")
+            save_task()
             break
         else:
             print("Invalid option, try again.")
 def main():
+    load_tasks()
     ui()
 
 if __name__ == "__main__":
