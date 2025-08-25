@@ -252,3 +252,69 @@
  - Modify object properties
  --p1.age = 40
 *********************************************************************************************************************************************************************************************
+ --Reading and Writing JSON to a File in python--
+ ' The full form of JSON is JavaScript Object Notation.'
+    - It is a text based data format used for storing and tranferring date, especially in web apps
+    - Python supports working with JSON through a built in package called json. To use it, we import the json Module in our python script
+    - JSON data is written as a key-value pairs inside curly braces, which makes it very similar to pythons dictionaries
+
+
+ - Reading JSON from a file using python 'Reading JSON in python means retrieving JSON data from a file or string and converting it into python objects liek dictionaries or lists. this 
+ process is called deserialization. python offers two main ways to read JSON date:'
+
+ - Using json.load() 'The JSON package has json.load() fuction that loads the JSON content from a JSON file into a dictionary. it takes on parameter
+  - File pointer = A file pointer that points to a JSON file
+  --EXAMPLE 
+
+  --import json
+
+  #read from file and parse JSON
+  with open("sample.json, "r") as f:
+    data = json.load(f)
+
+    print(data)
+    print(type(data)) 'print the data type in this case dict
+
+
+ - Writing JSON to a file in python 'Writing data to a JSON file in python involves converting python objects like dict into JSON format and saving them to a file. This process is called
+ serialization. lets explore two methods to write a JSON file in python.
+
+ - Using json.dumps() 'The JSON package in python has a fuction called json.dumps() that helps converting a dict to a JSON object. it takes twa parameters
+  - Dictionary = The name of a dict which should be converted to a JSON file.
+  - indent = defines the number of units for indentation
+
+ --EXAMPLE
+  - import json 
+    data = {
+        "name": "Tom",
+        "rollo": 56,
+        "cgpa": 8.6,
+        "phone": "9976770500"
+        }
+
+    json_str = json.dumps(data, indent=4)
+    with open(sample.json, "w") ad f
+    f.write(json_str)
+
+ - Using json.dump() 'another way of writing JSON to a file is by using json.dump() method. The JSON package has 'dump' function which directly writes the dict to a file in the form of JSON --EXAMPLE
+  - import json
+    date = {
+        "name": "Tom",
+        "rollo": 56,
+        "cgpa": 8.6,
+        "phone": "9976770500"
+        }
+    with open("sample.json", "w") as f
+      json.dumpt(data, f)
+
+ - Python vs JSON Object mapping
+    
+    Python Obj      JSON Obj
+    Dict            object
+    list, tuple     array
+    str             string
+    int,long,float  numbers
+    True            true
+    False           false
+    None            null
+*********************************************************************************************************************************************************************************************
